@@ -56,7 +56,7 @@
     "valid-url": "^1.0.6"
   },
   "scripts": {
-    "test": "grunt run_all_tests"
+    "test": "cd test/End_to_end_test/app && npm install && cd ../../ && grunt run_all_tests"
   },
   "engines": {
     "node": ">= 4.0.1"
