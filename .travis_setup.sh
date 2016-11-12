@@ -9,9 +9,6 @@ ls -l /dev/shm
 uname -a
 cat /etc/lsb-release
 
-npm install
-npm install -g grunt-cli
-
 sudo apt-get update --fix-missing
 
 sudo ln -sf $(which true) $(which xdg-desktop-menu)
@@ -36,3 +33,6 @@ sudo chown root:root $CHROME_SANDBOX; sudo chmod 4755 $CHROME_SANDBOX
 sudo md5sum $CHROME_SANDBOX
 
 google-chrome --version
+
+npm install
+npm install -g grunt-cli
