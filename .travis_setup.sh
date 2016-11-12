@@ -14,16 +14,10 @@ npm install -g grunt-cli
 
 sudo apt-get update --fix-missing
 
-export VERSION=$(echo $BROWSER | sed -e's/[^-]*-//')
-export BROWSER=$(echo $BROWSER | sed -e's/-.*//')
-
-echo BROWSER=$BROWSER
-echo VERSION=$VERSION
-
 sudo ln -sf $(which true) $(which xdg-desktop-menu)
 
 echo "Getting $VERSION of $BROWSER"
-export CHROME=google-chrome-${VERSION}_current_amd64.deb
+export CHROME=google-chrome-stable_current_amd64.deb
 wget https://dl.google.com/linux/direct/$CHROME
 sudo dpkg --install $CHROME || sudo apt-get -f install
 which google-chrome
