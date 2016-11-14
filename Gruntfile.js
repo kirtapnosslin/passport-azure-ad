@@ -65,6 +65,7 @@ module.exports = function loadGrunt(grunt) {
   grunt.registerTask('end_to_end_test', () => {
     if (process.version >= 'v6.9') {
       grunt.config('mochaTest.test.src', 'test/End_to_end_test/oidc_b2c_positive_test.js');
+      grunt.config('mochaTest.test.options.clearRequireCache', false);
       grunt.task.run(['mochaTest']);
     } else {
       grunt.log.writeln('\n\n\n======= No end to end tests for node version < v6.9 =======\n\n\n');
