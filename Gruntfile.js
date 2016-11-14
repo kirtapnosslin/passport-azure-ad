@@ -71,7 +71,8 @@ module.exports = function loadGrunt(grunt) {
       grunt.log.writeln('\n\n\n======= No end to end tests for node version < v6.9 =======\n\n\n');
     }
   });
-  grunt.registerTask('run_all_tests', ['printMsg_chai-passport', 'mochaTest', 'printMsg_nodeunit', 'nodeunit', 'printMsg_end_to_end_Test', 'end_to_end_test']);
+  grunt.registerTask('run_all_tests', ['printMsg_nodeunit', 'nodeunit', 'printMsg_end_to_end_Test', 'end_to_end_test']);
+  //grunt.registerTask('run_all_tests', ['printMsg_chai-passport', 'mochaTest', 'printMsg_nodeunit', 'nodeunit', 'printMsg_end_to_end_Test', 'end_to_end_test']);
   //grunt.registerTask('run_all_tests', ['printMsg_end_to_end_Test', 'end_to_end_test']);
   grunt.registerTask('default', 'run_all_tests');
 };
