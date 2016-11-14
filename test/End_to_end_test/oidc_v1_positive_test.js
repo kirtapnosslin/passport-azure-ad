@@ -435,9 +435,9 @@ describe('oidc v1 positive test', function() {
   /****************************************************************************
    *  Test login from two tabs
    ***************************************************************************/
-  it('should succeed with arity 8 for verify function', function(done) {
-    checkResultTwoTabs(hybrid_config, 8, done);
-  });
+  // it('should succeed with arity 8 for verify function', function(done) {
+  //   checkResultTwoTabs(hybrid_config, 8, done);
+  // });
 
   it('close service', function(done) {
     expect('1').to.equal('1');
