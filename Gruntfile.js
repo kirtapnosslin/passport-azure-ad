@@ -62,10 +62,14 @@ module.exports = function loadGrunt(grunt) {
   grunt.registerTask('printMsg_end_to_end_Test', () => {
     grunt.log.writeln('\n\n\n======= Running end to end tests in test/End_to_end_test =======\n\n\n');
   });
+
+  var run_e2e_tests = (process.version >= 'v6.9');
+
   grunt.registerTask('end_to_end_test', () => {
-    if (process.version >= 'v6.9') {
-      grunt.config('mochaTest.test.src', ['test/End_to_end_test/bearer_*.js', 'test/End_to_end_test/oidc_v1_positive_test']);
-      //grunt.config('mochaTest.test.options.clearRequireCache', false);
+    if (run_e2e_tests) {
+      grunt.config('mochaTest.test.src', 'test/End_to_end_test/bearer_*.js');
+      grunt.task.run(['mochaTest']);
+      grunt.config('mochaTest.test.src', 'test/End_to_end_test/oidc_v1_positive_test.js');
       grunt.task.run(['mochaTest']);
     } else {
       grunt.log.writeln('\n\n\n======= No end to end tests for node version < v6.9 =======\n\n\n');
