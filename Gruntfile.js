@@ -10,8 +10,8 @@ module.exports = function loadGrunt(grunt) {
     mochaTest: {
       test: {
         options: {
-          reporter: 'spec',
-          clearRequireCache: true
+          reporter: 'spec'
+          //clearRequireCache: true
         },
         src: ['test/Chai-passport_test/*_test.js'],
       },
