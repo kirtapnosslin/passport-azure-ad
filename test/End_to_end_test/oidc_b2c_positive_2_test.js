@@ -38,8 +38,8 @@ chrome.setDefaultService(service);
 var chai = require('chai');
 var expect = chai.expect;
 
-const TEST_TIMEOUT = 40000; // 30 seconds
-const LOGIN_WAITING_TIME = 2000; // 1 second
+const TEST_TIMEOUT = 60000; // 30 seconds
+const LOGIN_WAITING_TIME = 2500; // 1 second
 
 /******************************************************************************
  *  Tenant specific endpoint configurations
