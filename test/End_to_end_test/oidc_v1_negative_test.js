@@ -80,7 +80,12 @@ hybrid_config_common_endpoint_wrong_secret.clientSecret = 'wrong_secret';
  *****************************************************************************/
 
 var checkResult = (config, done) => {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  var chromeCapabilities = webdriver.Capabilities.chrome();
+  var chromeOptions = {
+    'args': ['--no-sandbox']
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  var driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
   var server = require('./app/app')(config, {}, 8);
 
   driver.get('http://localhost:3000/login')

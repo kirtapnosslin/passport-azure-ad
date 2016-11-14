@@ -134,7 +134,12 @@ server_config_common_endpoint_wrong_issuer_no_validateIssuer.validateIssuer = fa
  *****************************************************************************/
 
 var checkResult = (config, result, done) => {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  var chromeCapabilities = webdriver.Capabilities.chrome();
+  var chromeOptions = {
+    'args': ['--no-sandbox']
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  var driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
   var client = require('./app/client_for_api')(client_config, { resourceURL: 'https://graph.windows.net' });
   var server = require('./app/api')(config);
 

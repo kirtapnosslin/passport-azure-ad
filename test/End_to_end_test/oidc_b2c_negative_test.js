@@ -72,7 +72,12 @@ hybrid_config_common_endpoint_wrong_secret.clientSecret = 'wrong_secret';
  *****************************************************************************/
 
 var checkResult = (config, tenantIdOrName, done) => {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  var chromeCapabilities = webdriver.Capabilities.chrome();
+  var chromeOptions = {
+    'args': ['--no-sandbox']
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  var driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
   var server = require('./app/app')(config, {'tenantIdOrName': tenantIdOrName}, 8);
 
   driver.get('http://localhost:3000/login?p=b2c_1_signin')

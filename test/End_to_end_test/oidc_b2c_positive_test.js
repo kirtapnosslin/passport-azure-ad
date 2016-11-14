@@ -183,7 +183,12 @@ var resultPageValidation = (config, driver) => {
 };
 
 var checkResult = (config, done) => {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  var chromeCapabilities = webdriver.Capabilities.chrome();
+  var chromeOptions = {
+    'args': ['--no-sandbox']
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  var driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
   var server;
 
   // for B2C common endpoint, use dynamic tenant id
