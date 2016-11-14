@@ -36,7 +36,7 @@ var until = webdriver.until;
 var chai = require('chai');
 var expect = chai.expect;
 
-const TEST_TIMEOUT = 50000; // 30 seconds
+const TEST_TIMEOUT = 500000; // 30 seconds
 const LOGIN_WAITING_TIME = 1000; // 1 second
 
 /******************************************************************************
@@ -135,9 +135,10 @@ var checkResult = (config, result, done) => {
   var driver = chromedriver.get_driver();
   var client = require('./app/client_for_api')(client_config, { resourceURL: 'https://graph.windows.net' });
   var server = require('./app/api')(config);
-
+  
   driver.get('http://localhost:3000/login')
-  .then(() => { 
+  .then(() => {
+    driver.wait(until.titleIs('Sign in to your account'), 10000); 
     var usernamebox = driver.findElement(By.name('login'));
     usernamebox.sendKeys('robot@sijun.onmicrosoft.com');
     var passwordbox = driver.findElement(By.name('passwd'));

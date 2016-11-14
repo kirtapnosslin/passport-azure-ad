@@ -36,7 +36,7 @@ var until = webdriver.until;
 var chai = require('chai');
 var expect = chai.expect;
 
-const TEST_TIMEOUT = 60000; // 30 seconds
+const TEST_TIMEOUT = 500000; // 30 seconds
 const LOGIN_WAITING_TIME = 2000; // 1 second
 
 /******************************************************************************
@@ -112,6 +112,7 @@ var checkResult = (config, result, done) => {
 
   driver.get('http://localhost:3000/login?p=b2c_1_signin')
   .then(() => { 
+    driver.wait(until.titleIs('Sign in to your account'), 10000); 
     var usernamebox = driver.findElement(By.name('login'));
     usernamebox.sendKeys('lsj31415926@gmail.com');
     var passwordbox = driver.findElement(By.name('passwd'));

@@ -165,7 +165,8 @@ var checkResult = (config, arity, done) => {
   var server = require('./app/app')(config, {}, arity);
   console.log('### before login');
   driver.get('http://localhost:3000/login')
-  .then(() => { 
+  .then(() => {
+    driver.wait(until.titleIs('Sign in to your account'), 10000);  
     console.log('### at login');
     var usernamebox = driver.findElement(By.name('login'));
     usernamebox.sendKeys('robot@sijun.onmicrosoft.com');
@@ -220,9 +221,11 @@ var checkResultTwoTabs = (config, arity, done) => {
   // go to login page in tab1
   driver1.get('http://localhost:3000/login')
   .then(() => {
+    driver1.wait(until.titleIs('Sign in to your account'), 10000); 
     driver2.get('http://localhost:3000/login');
   })
   .then(() => {
+    driver2.wait(until.titleIs('Sign in to your account'), 10000); 
     var usernamebox = driver1.findElement(By.name('login'));
     usernamebox.sendKeys('robot@sijun.onmicrosoft.com');
     var passwordbox = driver1.findElement(By.name('passwd'));
