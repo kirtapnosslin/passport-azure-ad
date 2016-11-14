@@ -211,13 +211,8 @@ var checkResult = (config, arity, done) => {
 };
 
 var checkResultTwoTabs = (config, arity, done) => {
-  var chromeCapabilities = webdriver.Capabilities.chrome();
-  var chromeOptions = {
-    'args': ['--no-sandbox']
-  };
-  chromeCapabilities.set('chromeOptions', chromeOptions);
-  var driver1 = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
-  var driver2 = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
+  var driver1 = chromedriver.get_driver();
+  var driver2 = chromedriver.get_driver();
   var server = require('./app/app')(config, {}, arity);
   
   var windows;
