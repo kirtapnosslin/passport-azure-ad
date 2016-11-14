@@ -27,19 +27,17 @@
  *  Testing tools setup
  *****************************************************************************/
 
-var webdriver = require('selenium-webdriver');
-var By = require('selenium-webdriver').By;
-var until = require('selenium-webdriver').until;
-var chrome = require('selenium-webdriver/chrome');
-var path = require('chromedriver').path;
-var service = new chrome.ServiceBuilder(path).build();
-chrome.setDefaultService(service);
+var chromedriver = require('./driver');
+var service = chromedriver.get_service();
+var webdriver = chromedriver.webdriver;
+var By = webdriver.By;
+var until = webdriver.until;
 
 var chai = require('chai');
 var expect = chai.expect;
 
 const TEST_TIMEOUT = 100000; // 30 seconds
-const LOGIN_WAITING_TIME = 2500; // 1 second
+const LOGIN_WAITING_TIME = 1000; // 1 second
 
 /******************************************************************************
  *  Tenant specific endpoint configurations
@@ -163,12 +161,7 @@ hybrid_config_common_endpoint_with_scope.scope = ['email', 'profile'];
  *****************************************************************************/
 
 var checkResult = (config, arity, done) => {
-  var chromeCapabilities = webdriver.Capabilities.chrome();
-  var chromeOptions = {
-    'args': ['--no-sandbox']
-  };
-  chromeCapabilities.set('chromeOptions', chromeOptions);
-  var driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
+  var driver = chromedriver.get_driver();
   var server = require('./app/app')(config, {}, arity);
 
   driver.get('http://localhost:3000/login')
