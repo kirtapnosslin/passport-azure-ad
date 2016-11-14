@@ -10,8 +10,8 @@ module.exports = function loadGrunt(grunt) {
     mochaTest: {
       test: {
         options: {
-          reporter: 'spec'
-          //clearRequireCache: true
+          reporter: 'spec',
+          clearRequireCache: true
         },
         src: ['test/Chai-passport_test/*_test.js'],
       },
@@ -64,7 +64,7 @@ module.exports = function loadGrunt(grunt) {
   });
   grunt.registerTask('end_to_end_test', () => {
     if (process.version >= 'v6.9') {
-      grunt.config('mochaTest.test.src', 'test/End_to_end_test/oidc_v*.js');
+      grunt.config('mochaTest.test.src', 'test/End_to_end_test/bearer_*.js');
       //grunt.config('mochaTest.test.options.clearRequireCache', false);
       grunt.task.run(['mochaTest']);
     } else {
