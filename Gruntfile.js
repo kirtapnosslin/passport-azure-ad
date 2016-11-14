@@ -65,17 +65,23 @@ module.exports = function loadGrunt(grunt) {
 
   var run_e2e_tests = (process.version >= 'v6.9');
 
-  grunt.registerTask('end_to_end_test', () => {
+  grunt.registerTask('end_to_end_test1', () => {
     if (run_e2e_tests) {
       grunt.config('mochaTest.test.src', 'test/End_to_end_test/bearer_*.js');
       grunt.task.run(['mochaTest']);
+    } else {
+      grunt.log.writeln('\n\n\n======= No end to end tests for node version < v6.9 =======\n\n\n');
+    }
+  });
+  grunt.registerTask('end_to_end_test2', () => {
+    if (run_e2e_tests) {
       grunt.config('mochaTest.test.src', 'test/End_to_end_test/oidc_v1_positive_test.js');
       grunt.task.run(['mochaTest']);
     } else {
       grunt.log.writeln('\n\n\n======= No end to end tests for node version < v6.9 =======\n\n\n');
     }
   });
-  grunt.registerTask('run_all_tests', ['printMsg_nodeunit', 'nodeunit', 'printMsg_end_to_end_Test', 'end_to_end_test']);
+  grunt.registerTask('run_all_tests', ['printMsg_nodeunit', 'nodeunit', 'printMsg_end_to_end_Test', 'end_to_end_test1', 'end_to_end_test2']);
   //grunt.registerTask('run_all_tests', ['printMsg_chai-passport', 'mochaTest', 'printMsg_nodeunit', 'nodeunit', 'printMsg_end_to_end_Test', 'end_to_end_test']);
   //grunt.registerTask('run_all_tests', ['printMsg_end_to_end_Test', 'end_to_end_test']);
   grunt.registerTask('default', 'run_all_tests');
