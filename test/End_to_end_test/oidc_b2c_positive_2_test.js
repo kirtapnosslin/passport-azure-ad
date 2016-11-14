@@ -251,43 +251,6 @@ var checkResult = (config, done) => {
 describe('oidc b2c positive test', function() {
   this.timeout(TEST_TIMEOUT);
 
-  /****************************************************************************
-   *  Test various response types for tenant specific endpoint
-   ***************************************************************************/
-  
-  // hybrid flow
-  it('should succeed', function(done) {
-    checkResult(hybrid_config, done);
-  });
-
-  // authorization code flow
-  it('should succeed', function(done) {
-    checkResult(code_config, done);
-  }); 
-
-  // implicit flow
-  it('should succeed', function(done) {
-    checkResult(implicit_config, done);
-  }); 
-
-  // /***************************************************************************
-  //  *  Test various response type for common endpoint
-  //  **************************************************************************/
-
-  // hybrid flow
-  it('should succeed', function(done) {
-    checkResult(hybrid_config_common_endpoint, done);
-  }); 
-
-  // authorization code flow
-  it('should succeed', function(done) {
-    checkResult(code_config_common_endpoint, done);
-  }); 
-
-  // implicit flow
-  it('should succeed', function(done) {
-    checkResult(implicit_config_common_endpoint, done);
-  }); 
 
   /***************************************************************************
    *  Test issuer and validateIssuers for both tenant specific and common endpoint
@@ -301,6 +264,34 @@ describe('oidc b2c positive test', function() {
   // common endpoint with no issuer and no validateIssuer
   it('should succeed', function(done) {
     checkResult(hybrid_config_common_endpoint_noIssuer, done);
+  });
+
+  /****************************************************************************
+   *  Test query response type for both tenant specific and common endpoint
+   ***************************************************************************/
+
+  // tenant specific endpoint
+  it('should succeed', function(done) {
+    checkResult(code_config_query, done);
+  });
+
+  // common endpoint
+  it('should succeed', function(done) {
+    checkResult(code_config_common_endpoint_query, done);
+  });
+
+  /****************************************************************************
+   *  Test scope for both tenant specific and common endpoint
+   ***************************************************************************/
+
+  // tenant specific endpoint
+  it('should succeed', function(done) {
+    checkResult(hybrid_config_with_scope, done);
+  });
+
+  // common endpoint
+  it('should succeed', function(done) {
+    checkResult(hybrid_config_common_endpoint_with_scope, done);
   });
 
   it('close service', function(done) {
