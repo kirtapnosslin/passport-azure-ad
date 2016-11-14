@@ -156,9 +156,7 @@ hybrid_config_common_endpoint_with_scope.scope = ['offline_access', 'f0b6e4eb-2d
  *****************************************************************************/
 
 var resultPageValidation = (config, driver) => {
-  console.log('#### coming to result page');
   driver.wait(until.titleIs('result'), 20000);
-  console.log('#### validating result');
   driver.findElement(By.id('status')).getText().then((text) => { 
     expect(text).to.equal('succeeded');
   });
@@ -199,15 +197,12 @@ var checkResult = (config, done) => {
   
   driver.get('http://localhost:3000/login?p=b2c_1_signup')
   .then(() => {
-    console.log('#### at signup page');
     driver.wait(until.titleIs('User Details'), 10000);
-    console.log('#### click cancel button at signup page');
     driver.findElement(By.id('cancel')).click();
   });
 
   driver.get('http://localhost:3000/login?p=b2c_1_signin')
   .then(() => {
-    console.log('#### at signin page');
     driver.wait(until.titleIs('Sign in to your account'), 10000);
     var usernamebox = driver.findElement(By.name('login'));
     usernamebox.sendKeys('lsj31415926@gmail.com');
@@ -222,12 +217,10 @@ var checkResult = (config, done) => {
   })
   .then(() => {
     driver.get('http://localhost:3000/login?p=b2c_1_resetpassword');
-    console.log('#### at reset password page');
     driver.wait(until.titleIs('User Details'), 10000);
   })
   .then(() => {
     driver.get('http://localhost:3000/login?p=b2c_1_updateprofile');
-    console.log('#### at update profile page');
     driver.wait(until.titleIs('Update Profile'), 10000);
     driver.findElement(By.id('continue')).click();
   })
@@ -248,7 +241,7 @@ var checkResult = (config, done) => {
  *  The test cases
  *****************************************************************************/
 
-describe('oidc b2c positive test', function() {
+describe('oidc b2c positive test part 2', function() {
   this.timeout(TEST_TIMEOUT);
 
 
