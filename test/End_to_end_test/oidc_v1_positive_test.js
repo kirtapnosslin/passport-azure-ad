@@ -36,7 +36,7 @@ var until = webdriver.until;
 var chai = require('chai');
 var expect = chai.expect;
 
-const TEST_TIMEOUT = 100000; // 30 seconds
+const TEST_TIMEOUT = 500000; // 30 seconds
 const LOGIN_WAITING_TIME = 1000; // 1 second
 
 /******************************************************************************
