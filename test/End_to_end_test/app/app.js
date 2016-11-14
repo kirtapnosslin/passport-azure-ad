@@ -159,7 +159,6 @@ module.exports = function(strategyOptions, authenicateOptions, verifyFuncNumber)
   });
 
   app.get('/result', function(req, res) {
-    console.log('#### failed authentication ####');
     res.render('result', { user: req.user });
   });
 

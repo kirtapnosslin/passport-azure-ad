@@ -163,9 +163,10 @@ hybrid_config_common_endpoint_with_scope.scope = ['email', 'profile'];
 var checkResult = (config, arity, done) => {
   var driver = chromedriver.get_driver();
   var server = require('./app/app')(config, {}, arity);
-
+  console.log('### before login');
   driver.get('http://localhost:3000/login')
   .then(() => { 
+    console.log('### at login');
     var usernamebox = driver.findElement(By.name('login'));
     usernamebox.sendKeys('robot@sijun.onmicrosoft.com');
     var passwordbox = driver.findElement(By.name('passwd'));
@@ -175,7 +176,9 @@ var checkResult = (config, arity, done) => {
     }, LOGIN_WAITING_TIME);
   })
   .then(() => {
+    console.log('### waiting for result');
     driver.wait(until.titleIs('result'), 10000);
+    console.log('### find result');
     driver.findElement(By.id('status')).getText().then((text) => { 
       expect(text).to.equal('succeeded');
     });
@@ -405,20 +408,6 @@ describe('oidc v1 positive test', function() {
   });
 
   /****************************************************************************
-   *  Test query response type for both tenant specific and common endpoint
-   ***************************************************************************/
-
-  // tenant specific endpoint
-  it('should succeed', function(done) {
-    checkResult(code_config_query, 2, done);
-  });
-
-  // common endpoint
-  it('should succeed', function(done) {
-    checkResult(code_config_common_endpoint_query, 2, done);
-  });
-
-  /****************************************************************************
    *  Test scope for both tenant specific and common endpoint
    ***************************************************************************/
 
@@ -435,9 +424,24 @@ describe('oidc v1 positive test', function() {
   /****************************************************************************
    *  Test login from two tabs
    ***************************************************************************/
-  // it('should succeed with arity 8 for verify function', function(done) {
-  //   checkResultTwoTabs(hybrid_config, 8, done);
-  // });
+
+  it('should succeed with arity 8 for verify function', function(done) {
+    checkResultTwoTabs(hybrid_config, 8, done);
+  });
+
+  /****************************************************************************
+   *  Test query response type for both tenant specific and common endpoint
+   ***************************************************************************/
+
+  // tenant specific endpoint
+  it('should succeed', function(done) {
+    checkResult(code_config_query, 2, done);
+  });
+
+  // common endpoint
+  it('should succeed', function(done) {
+    checkResult(code_config_common_endpoint_query, 2, done);
+  });
 
   it('close service', function(done) {
     expect('1').to.equal('1');
