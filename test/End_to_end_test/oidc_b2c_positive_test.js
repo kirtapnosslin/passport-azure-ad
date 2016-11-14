@@ -38,7 +38,7 @@ chrome.setDefaultService(service);
 var chai = require('chai');
 var expect = chai.expect;
 
-const TEST_TIMEOUT = 100000; // 30 seconds
+const TEST_TIMEOUT = 30000; // 30 seconds
 const LOGIN_WAITING_TIME = 1000; // 1 second
 
 /******************************************************************************
@@ -156,6 +156,7 @@ hybrid_config_common_endpoint_with_scope.scope = ['offline_access', 'f0b6e4eb-2d
  *****************************************************************************/
 
 var resultPageValidation = (config, driver) => {
+  console.log('#### coming to result page');
   driver.wait(until.titleIs('result'), 20000);
   console.log('#### validating result');
   driver.findElement(By.id('status')).getText().then((text) => { 
