@@ -163,7 +163,12 @@ hybrid_config_common_endpoint_with_scope.scope = ['email', 'profile'];
  *****************************************************************************/
 
 var checkResult = (config, arity, done) => {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  var chromeCapabilities = webdriver.Capabilities.chrome();
+  var chromeOptions = {
+    'args': ['--no-sandbox']
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  var driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
   var server = require('./app/app')(config, {}, arity);
 
   driver.get('http://localhost:3000/login')
@@ -210,30 +215,26 @@ var checkResult = (config, arity, done) => {
 };
 
 var checkResultTwoTabs = (config, arity, done) => {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  var chromeCapabilities = webdriver.Capabilities.chrome();
+  var chromeOptions = {
+    'args': ['--no-sandbox']
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  var driver1 = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
+  var driver2 = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
   var server = require('./app/app')(config, {}, arity);
   
   var windows;
 
   // go to login page in tab1
-  driver.get('http://localhost:3000/login')
+  driver1.get('http://localhost:3000/login')
   .then(() => {
-    // open a new tab, tab2
-    driver.findElement(By.tagName('body')).sendKeys(webdriver.Key.CONTROL + "t");
-    // get the window handle for the two tabs
-    driver.getAllWindowHandles().then((allhandles) => { windows = allhandles; });
+    driver2.get('http://localhost:3000/login');
   })
   .then(() => {
-    // switch to tab2 and go to login page
-    driver.switchTo().window(windows[1]);
-    driver.get('http://localhost:3000/login');
-  })
-  .then(() => {
-    // go back to tab1, enter credentials
-    driver.switchTo().window(windows[0]);
-    var usernamebox = driver.findElement(By.name('login'));
+    var usernamebox = driver1.findElement(By.name('login'));
     usernamebox.sendKeys('robot@sijun.onmicrosoft.com');
-    var passwordbox = driver.findElement(By.name('passwd'));
+    var passwordbox = driver1.findElement(By.name('passwd'));
     passwordbox.sendKeys('Tmp123456');
     setTimeout(() => {
       passwordbox.sendKeys(webdriver.Key.ENTER);
@@ -241,52 +242,52 @@ var checkResultTwoTabs = (config, arity, done) => {
   })
   .then(() => {
     // check the result on tab1
-    driver.wait(until.titleIs('result'), 10000);
-    driver.findElement(By.id('status')).getText().then((text) => { 
+    driver1.wait(until.titleIs('result'), 10000);
+    driver1.findElement(By.id('status')).getText().then((text) => { 
       expect(text).to.equal('succeeded');
     });
-    driver.findElement(By.id('sub')).getText().then((text) => { 
+    driver1.findElement(By.id('sub')).getText().then((text) => { 
       expect(text).to.equal('J6hslv5qvTNd3LnvPC9rAK2rwqzhe4XVbAo7nCBizdo');
     });
-    driver.findElement(By.id('upn')).getText().then((text) => {
+    driver1.findElement(By.id('upn')).getText().then((text) => {
         expect(text).to.equal('robot@sijun.onmicrosoft.com');
     });
-    driver.findElement(By.id('access_token')).getText().then((text) => { 
+    driver1.findElement(By.id('access_token')).getText().then((text) => { 
         expect(text).to.equal('exists');
     });
-    driver.findElement(By.id('refresh_token')).getText().then((text) => { 
+    driver1.findElement(By.id('refresh_token')).getText().then((text) => { 
         expect(text).to.equal('exists');
     })
   })
   .then(() => {
     // switch to tab2
-    driver.switchTo().window(windows[1]);
-    var usernamebox = driver.findElement(By.name('login'));
+    var usernamebox = driver2.findElement(By.name('login'));
     usernamebox.sendKeys('robot@sijun.onmicrosoft.com');
-    var passwordbox = driver.findElement(By.name('passwd'));
+    var passwordbox = driver2.findElement(By.name('passwd'));
     passwordbox.sendKeys('Tmp123456');
     setTimeout(() => {
       passwordbox.sendKeys(webdriver.Key.ENTER);
     }, LOGIN_WAITING_TIME);
   })
   .then(() => {
-    driver.wait(until.titleIs('result'), 10000);
-    driver.findElement(By.id('status')).getText().then((text) => { 
+    driver2.wait(until.titleIs('result'), 10000);
+    driver2.findElement(By.id('status')).getText().then((text) => { 
       expect(text).to.equal('succeeded');
     });
-    driver.findElement(By.id('sub')).getText().then((text) => { 
+    driver2.findElement(By.id('sub')).getText().then((text) => { 
       expect(text).to.equal('J6hslv5qvTNd3LnvPC9rAK2rwqzhe4XVbAo7nCBizdo');
     });
-    driver.findElement(By.id('upn')).getText().then((text) => {
+    driver2.findElement(By.id('upn')).getText().then((text) => {
         expect(text).to.equal('robot@sijun.onmicrosoft.com');
     });
-    driver.findElement(By.id('access_token')).getText().then((text) => { 
+    driver2.findElement(By.id('access_token')).getText().then((text) => { 
         expect(text).to.equal('exists');
     });
-    driver.findElement(By.id('refresh_token')).getText().then((text) => { 
+    driver2.findElement(By.id('refresh_token')).getText().then((text) => { 
       expect(text).to.equal('exists');
-      driver.manage().deleteAllCookies();
-      driver.quit();
+      driver1.manage().deleteAllCookies();
+      driver2.manage().deleteAllCookies();
+      driver1.quit(); driver2.quit();
       server.close(done); 
     });
   });
