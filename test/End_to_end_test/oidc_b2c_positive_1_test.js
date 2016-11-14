@@ -282,20 +282,6 @@ describe('oidc b2c positive test part 1', function() {
     checkResult(implicit_config_common_endpoint, done);
   }); 
 
-  /***************************************************************************
-   *  Test issuer and validateIssuers for both tenant specific and common endpoint
-   **************************************************************************/
-
-  // tenant specific endpoint
-  it('should succeed', function(done) {
-    checkResult(hybrid_config_noIssuer, done);
-  });
-
-  // common endpoint with no issuer and no validateIssuer
-  it('should succeed', function(done) {
-    checkResult(hybrid_config_common_endpoint_noIssuer, done);
-  });
-
   it('close service', function(done) {
     expect('1').to.equal('1');
     service.stop();

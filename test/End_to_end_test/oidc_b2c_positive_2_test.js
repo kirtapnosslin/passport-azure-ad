@@ -244,7 +244,6 @@ var checkResult = (config, done) => {
 describe('oidc b2c positive test part 2', function() {
   this.timeout(TEST_TIMEOUT);
 
-
   /***************************************************************************
    *  Test issuer and validateIssuers for both tenant specific and common endpoint
    **************************************************************************/
